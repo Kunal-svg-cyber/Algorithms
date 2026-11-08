@@ -1,0 +1,24 @@
+class Solution {
+    public boolean canRemoveAll(int[] types, int[] colors, int[] groupSize) {
+        int n = types.length;
+        int[] tS = new int[n];
+        int[] cS = new int[n];
+        int[] coS = new int[n];
+        int t = -1;
+
+        for(int i=0; i<n;i++){
+            if( t >=0 && tS[t] == types[i] && cS[t] == colors[i]){
+                coS[t]++;
+            }else{
+                t++;
+                tS[t] = types[i];
+                cS[t] = colors[i];
+                coS[t] = 1;
+            }
+            while(t >= 0 && coS[t] == groupSize[tS[t]]){
+                t--;
+            }
+        }
+        return t == -1;
+    }
+}
