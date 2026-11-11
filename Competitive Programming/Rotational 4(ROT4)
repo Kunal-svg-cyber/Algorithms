@@ -1,0 +1,32 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+	    BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+	    String l = r.readLine();
+	    if(l==null) return;
+	    
+	    int t = Integer.parseInt(l.trim());
+	    StringBuilder o = new StringBuilder();
+	    
+	    while (t-- > 0){
+	        int n = Integer.parseInt(r.readLine().trim());
+	        String s = r.readLine().trim();
+	        
+	        long c =0;
+	        for(int i=0;i<n;i++){
+	            int a = s.charAt(i) -'0';
+	            int b = s.charAt((i + 1) % n) -'0';
+	            if((a * 10 + b) % 4 ==0){
+	                c++;
+	            }
+	        }
+	        o.append(c).append("\n");
+	    }
+	    System.out.print(o);
+	}
+}
