@@ -2,4 +2,4 @@ this repository contains all the algorithmic problems i solved till now with log
 
 
 
-only Leetcode solutions are added not codeforces 
+only Leetcode & AtCoder contest solutions are added not codeforces 
