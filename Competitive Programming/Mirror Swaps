@@ -1,0 +1,100 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+    static class R{
+        long s; int w;
+        R(long s, int w){ this.s = s;this.w = w;}
+        void u(long ns, int nw){
+            if(ns > this.s || (ns == this.s && nw < this.w)){ s = ns; w = nw;}
+        }
+    }
+    
+	public static void main (String[] args) throws java.lang.Exception
+	{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String z = br.readLine();
+        if(z == null) return;
+        int t = Integer.parseInt(z.trim());
+        StringBuilder sb = new StringBuilder();
+        
+        while( t-- > 0){
+            int n = Integer.parseInt(br.readLine().trim());
+            long[] a = new long[n + 1];
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            for(int i = 1;i<=n; i++) a[i] = Long.parseLong(st.nextToken());
+            
+            if(n==1){
+                sb.append("0 0\n");
+                continue;
+            }
+            
+            int m= n / 2;
+            ArrayList<int[]>[] eb = new ArrayList[m + 1];
+            for(int i = 1; i <= m; i++) eb[i] = new ArrayList<>();
+            
+            int[] p = new int[n + 1];
+            for(int i =1; i<= n; i++){
+                if (i <= m) p[i] = i;
+                else if (n % 2 == 1 && i == m + 1) p[i] =m;
+                else p[i] = n - i + 1;
+            }
+            
+            for(int i=1; i< n; i++){
+                int k = Math.max(p[i], p[i+1]);
+                if(k > m) k =m;
+                eb[k].add(new int[]{i, i + 1});
+            }
+            
+            R[] dp = new R[2];
+            dp[0] = new R(0, 0);
+            dp[1] = new R(0, 1);
+            
+            int[] b = new int[m + 1];
+            
+            for(int k =1; k<=m;k++){
+                R[] nx = new R[2];
+                nx[0] = new R(-1, 0);
+                nx[1] = new R(-1, 0);
+                
+                for(int pk = 0; pk <=1; pk++){
+                    if (k > 1 && dp[pk].s == -1) continue;
+                    
+                    for(int ck =0; ck <=1; ck++){
+                        if (k > 1) b[k - 1] = pk;
+                        b[k] = ck;
+                        
+                        long ad =0;
+                        for(int[] e : eb[k]) {
+                            long u = g(e[0], n, m, a, b);
+                            long v = g(e[1],n,m,a,b);
+                            ad += Math.abs(u - v);
+                        }
+                        
+                        long bs = (k ==1) ? 0 : dp[pk].s;
+                        int bw = (k == 1) ? 0 : dp[pk].w;
+                        nx[ck].u(bs + ad, bw + ck);
+                    }
+                }
+                dp = nx;
+            }
+            
+            R ans = new R(-1, Integer.MAX_VALUE);
+            for(int s = 0; s <=1;s++){
+                if (dp[s].s != -1) ans.u(dp[s].s, dp[s].w);
+            }
+            
+            sb.append(ans.s).append(" ").append(ans.w).append("\n");
+        }
+        System.out.print(sb);
+	}
+	
+	static long g(int pos, int n, int m, long[] a, int[] st){
+	    if(n % 2 == 1 && pos == m+1) return a[pos];
+	    int p = (pos <= m) ? pos : (n - pos + 1);
+	    if(st[p] ==0) return a[pos];
+	    return a[n - pos + 1];
+	}
+}
