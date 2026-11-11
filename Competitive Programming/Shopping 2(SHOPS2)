@@ -1,0 +1,46 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+        Scanner s = new Scanner(System.in);
+        
+        if(!s.hasNextInt()) return;
+        int t = s.nextInt();
+        
+        while (t-- > 0){
+            int n = s.nextInt();
+            long d = s.nextLong();
+            
+            long[] x = new long[n];
+            long[] y = new long[n];
+            
+            long a =0;
+            for(int i=0;i<n;i++){
+                x[i] = s.nextLong();
+                a += x[i];
+            }
+            
+            long b = 0;
+            for(int i=0;i<n;i++){
+                y[i] = s.nextLong();
+                b += y[i];
+            }
+            
+            long c1 = d + a;
+            long c2 = d + b;
+            
+            long cb = 2 *d;
+            for(int i=0;i<n;i++){
+                cb += Math.min(x[i],y[i]);
+            }
+            
+            long ans = Math.min(c1, Math.min(c2, cb));
+            System.out.println(ans);
+        }
+        s.close();
+	}
+}
