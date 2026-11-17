@@ -1,0 +1,71 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+import java.util.Scanner;
+
+class Codechef
+{
+	public static void main (String[] x){
+		Scanner s = new Scanner(System.in);
+		while(s.hasNext()){
+		    String t = s.next();
+		    int[] a = new int[10];
+		    int n=0;
+		    
+		    for(int i=0;i<t.length();i++){
+		        char c = t.charAt(i);
+		        if(c>='0' && c<='9'){
+		            a[c-'0']++;
+		            n++;
+		        }
+		    }
+		    if(n==0){
+		        System.out.println("-1");
+		        continue;
+		    }
+		    
+		    int e =-1;
+		    for(int i =0;i<=8;i+=2){
+		        if(a[i] > 0){
+		            e=i;
+		            break;
+		        }
+		    }
+		    if(e==-1){
+		        System.out.println("-1");
+		        continue;
+		    }
+		    a[e]--;
+		    StringBuilder b = new StringBuilder();
+		    
+		    for(int i=9;i>=1;i--){
+		        while(a[i] >0){
+		            b.append(i);
+		            a[i]--;
+		        }
+		    }
+		    
+		    while(a[0] >0){
+		        b.append(0);
+		        a[0]--;
+		    }
+		    
+		    b.append(e);
+		    
+		    String r = b.toString();
+		    int f = -1;
+		    for(int i=0;i<r.length();i++){
+		        if(r.charAt(i) != '0'){
+		            f=i;
+		            break;
+		        }
+		    }
+		    if(f== -1){
+		        System.out.println("0");
+		    }else{
+		        System.out.println(r.substring(f));
+		    }
+		}
+		s.close();
+	}
+}
