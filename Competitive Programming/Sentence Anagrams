@@ -1,0 +1,39 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+import java.util.regex.*;
+
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String a =br.readLine();
+		String b = br.readLine();
+		
+		if(a==null) a="";
+		if(b==null) b="";
+		
+		HashMap<String, Integer> m1=getMap(a);
+		HashMap<String, Integer> m2 = getMap(b);
+		
+		if(m1.equals(m2)){
+		    System.out.println("The sentences are anagrams.");
+		}else{
+		    System.out.println("The sentences are not anagrams.");
+		}
+	}
+	private static HashMap<String, Integer> getMap(String s){
+	    HashMap<String, Integer> m = new HashMap<>();
+	    Matcher t = Pattern.compile("[a-zA-Z]+").matcher(s);
+	    while(t.find()){
+	        String w = t.group().toLowerCase();
+	        if(m.containsKey(w)){
+	            m.put(w,m.get(w) + 1);
+	        }else{
+	            m.put(w, 1);
+	        }
+	    }
+	    return m;
+	}
+}
