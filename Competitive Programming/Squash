@@ -1,0 +1,29 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner c = new Scanner(System.in);
+		
+		if(!c.hasNextInt()) return;
+		int t= c.nextInt();
+		while(t-- >0){
+		    int n=c.nextInt();
+		    int k = c.nextInt();
+		    String s= c.next();
+		    
+		    int b=1;
+		    for(int i=1;i<n;i++){
+		        if(s.charAt(i) != s.charAt(i-1)){
+		            b++;
+		        }
+		    }
+		    System.out.println(k >= b && k<= n ? "YES" : "NO");
+		}
+		c.close();
+
+	}
+}
