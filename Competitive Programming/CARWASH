@@ -1,0 +1,79 @@
+import java.util.*;
+import java.io.*;
+
+class Codechef
+{
+    static class P implements Comparable<P> {
+        int x,y;
+        P(int x, int y){this.x=x; this.y =y;}
+        public int compareTo(P o){
+            return this.x != o.x ? Integer.compare(this.x, o.x) : Integer.compare(this.y, o.y);
+        }
+    }
+    
+    static void upd(int i, int v, int[] b){
+        for(; i< b.length;i+=i & -i) b[i] = Math.max(b[i], v);
+    }
+    static int qry(int i,int[] b){
+        int m=0;
+        for(; i>0;i-= i & -i) m = Math.max(m,b[i]);
+        return m;
+    }
+	public static void main (String[] args) throws IOException
+	{
+		BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer s = null;
+		String l = r.readLine();
+		if( l == null) return;
+		s= new StringTokenizer(l);
+		int t = Integer.parseInt(s.nextToken());
+		StringBuilder w = new StringBuilder();
+		
+		while(t-- > 0){
+		    while(s==null || !s.hasMoreTokens()){
+		        l=r.readLine();
+		        if(l==null) break;
+		        s= new StringTokenizer(l);
+		    }
+		    if(l==null) break;
+		    int n = Integer.parseInt(s.nextToken()), m = Integer.parseInt(s.nextToken()), k=Integer.parseInt(s.nextToken());
+		    
+		    List<P> p = new ArrayList<>();
+		    for(int i=0;i<k;i++){
+		        while(s==null || !s.hasMoreTokens()){
+		            l=r.readLine();
+		            s=new StringTokenizer(l);
+		        }
+		        int x = Integer.parseInt(s.nextToken());
+		        while(s==null || !s.hasMoreTokens()){
+		            l=r.readLine();
+		            s= new StringTokenizer(l);
+		        }
+		        int y = Integer.parseInt(s.nextToken());
+		        if(x<=n && y <=m) p.add(new P(x,y));
+		    }
+		    
+		    Collections.sort(p);
+		    
+		    List<Integer> u = new ArrayList<>();
+		    for(P e : p) u.add(e.y);
+		    Collections.sort(u);
+		    
+		    List<Integer> c = new ArrayList<>();
+		    for(int i=0;i<u.size();i++){
+		        if(i==0 || !u.get(i).equals(u.get(i-1))) c.add(u.get(i));
+		    }
+		    int[] bt = new int[c.size() + 1];
+		    int mx = 0;
+		    
+		    for(P e : p){
+		        int d = Collections.binarySearch(c, e.y) + 1;
+		        int v = 1 + qry(d, bt);
+		        mx = Math.max(mx, v);
+		        upd(d,v,bt);
+		    }
+		    w.append((long) n + m -1 +mx).append("\n");
+		}
+		System.out.print(w);
+	}
+}
