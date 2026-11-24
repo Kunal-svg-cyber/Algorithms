@@ -1,0 +1,42 @@
+#include <queue>
+#include <utility>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> earliestActivationTimes(int n, vector<vector<int>>& edges, vector<int>& requiredSignals) {
+        vector<vector<pair<int, int>>> adj(n);
+        for(const auto& e : edges){
+            adj[e[0]].push_back({e[1], e[2]});
+        }
+        vector<long long> ans(n, -1);
+        vector<bool> active(n, false);
+        vector<priority_queue<long long>> arrivals(n);
+
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;
+        pq.push({0LL, 0});
+
+        while(!pq.empty()){
+            auto [t,u] = pq.top();
+            pq.pop();
+            if(active[u]) continue;
+            active[u]=true;
+            ans[u]=t;
+            for(auto[v,d] : adj[u]){
+                if(active[v]) continue;
+                long long arr = t+d;
+                int need = requiredSignals[v];
+                auto& q=arrivals[v];
+                q.push(arr);
+                if((int)q.size() > need){
+                    q.pop();
+                }
+                if((int)q.size() == need){
+                    pq.push({q.top(), v});
+                }
+            }
+        }
+        return ans;
+    }
+};
