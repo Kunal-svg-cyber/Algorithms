@@ -1,0 +1,54 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+public class Main{
+    static final int M = 200005;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+    static String nxt() throws IOException{
+        while(st==null || !st.hasMoreTokens()){
+            String s = br.readLine();
+            if(s==null) return null;
+            st=new StringTokenizer(s);
+        }
+        return st.nextToken();
+    }
+    public static void main(String[] args) throws IOException{
+        String s=nxt();
+        if(s==null) return;
+        int t= Integer.parseInt(s);
+        int[] a = new int[M];
+        int[] p=new int[M];
+        StringBuilder out = new StringBuilder();
+        for(int z=0;z<t;z++){
+            String ns=nxt();
+            String ks=nxt();
+            if(ns==null || ks == null) break;
+            int n = Integer.parseInt(ns);
+            int k=Integer.parseInt(ks);
+            boolean eof=false;
+            for(int i=1;i<=n;i++){
+                String v=nxt();
+                if(v==null){
+                    eof=true;
+                    break;
+                }
+                a[i] = Integer.parseInt(v);
+            }
+            if(eof) break;
+            p[1] =0;
+            for(int i=1;i<n;i++){
+                p[i+1]=p[i] +(a[i] != a[i+1]? 1 : 0);
+            }
+            int ans =0;
+            for(int i=1;i<=k;i++){
+                int l=i;
+                int r=n-k+i;
+                if(p[r]-p[l] == 0) ans++;
+            }
+            out.append(ans).append('\n');
+        }
+        System.out.print(out);
+    }
+}
