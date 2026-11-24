@@ -1,0 +1,32 @@
+class Solution {
+    public String[] assignUmbrella(int[] rain) {
+        int n = rain.length;
+        String[] ans = new String[n];
+        int a = 0;
+        int b = 0;
+        for(int i=0;i<n;i++){
+            boolean p = i + 1 < n && rain[i] == 1 && rain[i+1]==1;
+            boolean q = rain[i] == 1;
+            if(!p && !q){
+                ans[i] = "None";
+                continue;
+            }
+            if(p && q){
+                if(a <=b){
+                    ans[i] = "Alice";
+                    a++;
+                }else{
+                    ans[i]="Bob";
+                    b++;
+                }
+            }else if (p){
+                ans[i] = "Alice";
+                a++;
+            }else{
+                ans[i] = "Bob";
+                b++;
+            }
+        }
+        return ans;
+    }
+}
