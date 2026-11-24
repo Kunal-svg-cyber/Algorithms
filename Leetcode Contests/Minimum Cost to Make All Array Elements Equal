@@ -1,0 +1,64 @@
+#include <algorithm>
+#include <climits>
+#include <unordered_map>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    long long minCost(vector<int>& nums) {
+        int n = nums.size();
+        unordered_map<int, vector<int>> mp;
+        for(int i=0;i<n;i++){
+            mp[nums[i]].push_back(i);
+        }
+        if(mp.size()==1) return 0;
+
+        long long ans = LLONG_MAX;
+
+        for(auto& [val,idxs] : mp){
+            int sz = idxs.size();
+            if(sz==n) return 0;
+            vector<int> mids;
+            for(int x : idxs){
+                if(x>0 && x< n-1) mids.push_back(x);
+            }
+            if(mids.empty()) continue;
+
+            int l=0;
+            while(l<sz && idxs[l] == l) l++;
+
+            int r=n-1;
+            int k=sz - 1;
+            while(k>=0 && idxs[k]==r){
+                r--;
+                k--;
+            }
+            auto it0=lower_bound(mids.begin(),mids.end(),l);
+            if(it0 != mids.begin()){
+                int s = *prev(it0);
+                ans=min(ans, 1LL * (n-1-s)*val);
+            }
+            int ptr=0;
+            int cur=0;
+            for(int p :mids){
+                if(cur < p) cur =p;
+                while(ptr<sz && idxs[ptr] <= cur){
+                    if(idxs[ptr] == cur) cur++;
+                    ptr++;
+                }
+                long long c1= 1LL * p * val;
+                if(cur >= n){
+                    ans = min(ans, c1);
+                }else{
+                    auto it = lower_bound(mids.begin(),mids.end(), cur);
+                    if(it != mids.begin()){
+                        int s = *prev(it);
+                        ans = min(ans, c1 + 1LL *(n-1-s)*val);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
