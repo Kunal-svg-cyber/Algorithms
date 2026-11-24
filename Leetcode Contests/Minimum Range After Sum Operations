@@ -1,0 +1,13 @@
+import java.util.Arrays;
+class Solution {
+    public int minRange(int a, int b, int c) {
+       int[] x = {a,b,c};
+        Arrays.sort(x);
+        int k = x[2]-x[0];
+        int s = x[0]+x[1];
+        if(s < x[2]){
+            k = Math.min(k,s-x[0]);
+        }
+        return k;
+    }
+}
