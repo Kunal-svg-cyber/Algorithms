@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+const int MOD = 1000000007;
+const int OFF = 100005;
+const int MX = 200015;
+long long b[MX + 5];
+void add(int i, long long v){
+    for(;i<=MX;i+=i & -i) b[i] += v;
+}
+long long sum(int i){
+    long long s=0;
+    for(;i>0;i -= i & -i) s += b[i];
+    return s;
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int n;
+	cin >> n;
+	vector<long long> a(n + 1);
+	for(int i=1;i<=n;i++) cin >> a[i];
+	
+	unordered_map<long long,int> m1;
+	m1.reserve(n*2);
+	vector<long long> L(n + 1);
+	int d =0;
+	for(int i=1;i<=n;i++){
+	    int c = ++m1[a[i]];
+	    if(c==1) d++;
+	    L[i] = (long long)c - d /2;
+	}
+	
+	unordered_map<long long,int> m2;
+	m2.reserve(n*2);
+	vector<long long> R(n + 1);
+	d=0;
+	for(int i=n;i>=1;i--){
+	    int c = ++m2[a[i]];
+	    if(c==1) d++;
+	    R[i] = (long long)(d/2)-c;
+	}
+	long long ans =0;
+	for(int j=1;j<=n;j++){
+	    int r = (int)(R[j] + OFF);
+	    if(r>MX) r= MX;
+	    if(r>=1) ans = (ans + sum(r)) % MOD;
+	    int l=(int)(L[j] + OFF);
+	    if(l>=1 && l <=MX) add(l,1);
+	}
+	cout << ans << "\n";
+	return 0;
+
+}
