@@ -1,0 +1,61 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+public class Main{
+    static final int M = 200005;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+    static String nxt() throws IOException{
+        while (st==null || !st.hasMoreTokens()){
+            String s = br.readLine();
+            if(s==null) return null;
+            st=new StringTokenizer(s);
+        }
+        return st.nextToken();
+    }
+    public static void main(String[] args) throws IOException{
+        String s=nxt();
+        if(s==null) return;
+        int t= Integer.parseInt(s);
+        int[] id=new int[M];
+        int[] lArr = new int[M];
+        int[] rArr = new int[M];
+        StringBuilder out = new StringBuilder();
+        for(int z=0;z<t;z++){
+            String ns = nxt();
+            if(ns == null) break;
+            int n = Integer.parseInt(ns);
+            boolean eof=false;
+            for(int i=1;i<=n;i++){
+                String vs=nxt();
+                if(vs==null){
+                    eof=true;
+                    break;
+                }
+                id[Integer.parseInt(vs)]=i;
+            }
+            if(eof) break;
+            for(int i=0;i<=n + 1;i++){
+                lArr[i] = i-1;
+                rArr[i] = i + 1;
+            }
+            long ans =0;
+            for(int v =n;v>=1;v--){
+                int p=id[v];
+                int l=lArr[p];
+                int r=rArr[p];
+                int a = p-l;
+                int b=r-p;
+                int lo = Math.min(a,b);
+                int hi=Math.max(a,b);
+                if(lo==1) ans += hi;
+                else ans += 2;
+                rArr[l]=r;
+                lArr[r]=l;
+            }
+            out.append(ans).append('\n');
+        }
+        System.out.print(out);
+    }
+}
