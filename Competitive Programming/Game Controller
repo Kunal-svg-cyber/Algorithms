@@ -1,0 +1,19 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner sc = new Scanner(System.in);
+		if(!sc.hasNextLong()){
+		    return;
+		}
+		long r = sc.nextLong();
+		long l = sc.hasNextLong() ? sc.nextLong() : 0L;
+		System.out.println(Math.abs(r - l));
+		sc.close();
+
+	}
+}
