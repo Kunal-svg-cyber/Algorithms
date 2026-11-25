@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+	cin >> t;
+	for(int tc =0 ; tc < t;tc++){
+	    long long n,m,r,c;
+	    cin >> n >> m >> r >> c;
+	    long long c1 = ( r - 1 > c - 1) ? (r - 1) : ( c - 1);
+	    long long c2 = (r - 1 > m - c) ? ( r - 1) : ( m - c);
+	    long long c3 = (n - r > c - 1) ? (n - r) : ( c - 1);
+	    long long c4 = ( n - r > m - c) ? ( n - r) : (m - c);
+	    
+	    long long bs = c1;
+	    if(c2 < bs) bs = c2;
+	    if(c3 < bs) bs = c3;
+	    if(c4 < bs) bs = c4;
+	    
+	    long long rs = n - 1;
+	    long long cs = m - 1;
+	    long long bi = (rs > cs) ? rs : cs;
+	    long long pp = 2 * ( rs + cs) - bi;
+	    cout << bs + pp << "\n";
+	}
+	return 0;
+
+}
