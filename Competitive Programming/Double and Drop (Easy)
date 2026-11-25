@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+	cin >> t;
+	for(int i=0;i<t;i++){
+	    int n;
+	    cin >> n;
+	    long long arr[5005];
+	    long long totalSum=0;
+	    long long big=0;
+	    for(int j=0;j<n;j++){
+	        cin >> arr[j];
+	        totalSum += arr[j];
+	        if(arr[j] > big){
+	            big = arr[j];
+	        }
+	    }
+	    long long ans = totalSum - big;
+	    for(int j=0;j<n;j++){
+	        long long dou = arr[j] * 2;
+	        long long top = big;
+	        if(dou > top){
+	            top = dou;
+	        }
+	        long long cur = (totalSum + arr[j]) - top;
+	        if(cur > ans){
+	            ans = cur;
+	        }
+	    }
+	    cout << ans << "\n";
+
+	}
+	return 0;
+
+}
